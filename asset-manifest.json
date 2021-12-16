@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/BTCapp/static/css/main.e28503e9.chunk.css",
+    "main.js": "/BTCapp/static/js/main.66e1c973.chunk.js",
+    "main.js.map": "/BTCapp/static/js/main.66e1c973.chunk.js.map",
+    "runtime-main.js": "/BTCapp/static/js/runtime-main.086978b5.js",
+    "runtime-main.js.map": "/BTCapp/static/js/runtime-main.086978b5.js.map",
+    "static/js/2.4e019c12.chunk.js": "/BTCapp/static/js/2.4e019c12.chunk.js",
+    "static/js/2.4e019c12.chunk.js.map": "/BTCapp/static/js/2.4e019c12.chunk.js.map",
+    "static/js/3.5e87fb6b.chunk.js": "/BTCapp/static/js/3.5e87fb6b.chunk.js",
+    "static/js/3.5e87fb6b.chunk.js.map": "/BTCapp/static/js/3.5e87fb6b.chunk.js.map",
+    "index.html": "/BTCapp/index.html",
+    "static/css/main.e28503e9.chunk.css.map": "/BTCapp/static/css/main.e28503e9.chunk.css.map",
+    "static/js/2.4e019c12.chunk.js.LICENSE.txt": "/BTCapp/static/js/2.4e019c12.chunk.js.LICENSE.txt",
+    "static/media/background2.4062aecc.jpg": "/BTCapp/static/media/background2.4062aecc.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.086978b5.js",
+    "static/js/2.4e019c12.chunk.js",
+    "static/css/main.e28503e9.chunk.css",
+    "static/js/main.66e1c973.chunk.js"
+  ]
+}
