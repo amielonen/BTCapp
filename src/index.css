@@ -34,5 +34,21 @@ h2 {
 }
 
 #bear {
+  max-width: 70%;
+  margin: 0 auto;
   margin-top: 10%;
+}
+
+button {
+  margin-left: 2%;
+}
+
+#volume {
+  max-width: 70%;
+  margin: 0 auto;
+}
+
+#timetravel {
+  max-width: 70%;
+  margin: 0 auto;
 }

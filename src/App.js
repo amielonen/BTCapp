@@ -3,23 +3,14 @@ import "./App.css";
 import background from "./images/background2.jpg";
 
 function App() {
-  const [start, setStart] = useState();
-  const [end, setEnd] = useState();
-  const [longestBear, setLongestBear] = useState();
-  const [topVolumeDate, setTopVolumeDate] = useState();
-  const [topVolume, setTopVolume] = useState();
-  const [buyDate, setBuyDate] = useState();
-  const [sellDate, setSellDate] = useState();
+  const [start, setStart] = useState(); //user-input start date
+  const [end, setEnd] = useState(); //user-input end date
 
-  // eventHandler that manages the state of the start-date
-  const changeStartDate = (e) => {
-    setStart(e.target.value);
-  };
-
-  // eventHandler that manages the state of the end-date
-  const changeEndDate = (e) => {
-    setEnd(e.target.value);
-  };
+  const [longestBear, setLongestBear] = useState(); // the longest down-trend
+  const [topVolumeDate, setTopVolumeDate] = useState(); // date of the top volume
+  const [topVolume, setTopVolume] = useState(); // top volume in euros
+  const [buyDate, setBuyDate] = useState(); // suggested date to buy in the range
+  const [sellDate, setSellDate] = useState(); // suggested date to sell in the range
 
   // when form is submitted, this function makes a query to the API based on selected dates
   // & calls functions to process the data
@@ -39,11 +30,12 @@ function App() {
   };
 
   //processes the data to a more usable form: changes UNIX-times to Date objects &
-  //transforms the data granularity to the desired form (closest point to 00:00 UTC for each day)
+  //transforms the data granularity to the desired level (closest datapoint after 00:00 UTC for each day)
   const processAPIdata = (json) => {
     let prices = [];
     let volumes = [];
     let dates = getDatesInRange();
+
     //finds the closest datapoint to 00:00 UTC for each date in the range
     for (let date of dates) {
       let pricepoint = json.prices.find((p) => {
@@ -94,17 +86,18 @@ function App() {
     );
   };
 
+  /**
+   * determines the best days to buy & sell in the date-range
+   */
   const maxProfit = (prices) => {
     let profit = 0;
     let bestBuy;
     let bestSell;
-    let currentBuy;
-    let currentSell;
 
     for (let i = 0; i < prices.length; i++) {
-      currentBuy = prices[i][1];
-      for (let j = i; j < prices.length; j++) {
-        currentSell = prices[j][1];
+      let currentBuy = prices[i][1];
+      for (let j = i + 1; j < prices.length; j++) {
+        let currentSell = prices[j][1];
         if (currentSell - currentBuy > profit) {
           profit = currentSell - currentBuy;
           bestBuy = prices[i][0];
@@ -113,7 +106,7 @@ function App() {
       }
     }
 
-    if (bestBuy === undefined && bestSell === undefined) {
+    if ((bestBuy === undefined && bestSell === undefined) || profit === 0) {
       setBuyDate("DON'T BUY!");
       setSellDate("DON'T SELL!");
       return;
@@ -121,13 +114,11 @@ function App() {
 
     setBuyDate(bestBuy.toDateString());
     setSellDate(bestSell.toDateString());
-
-    /*
-    console.log(unixDate2date(bestBuy));
-    console.log(unixDate2date(bestSell));
-    console.log(profit);*/
   };
 
+  /**
+   * calculates the length of the longest consecutive downward price trend in the range
+   */
   const calcLongestBearTrend = (prices) => {
     let currentTrend = []; //keeps track of the trend being calculated
     let longestTrend = []; //the longest found trend
@@ -144,15 +135,11 @@ function App() {
       }
     }
     setLongestBear(longestTrend.length);
-    console.log(longestTrend.length);
-
-    //logaus
-    /*
-    for (let d of longestTrend) {
-      console.log(unixDate2date(d[0]) + ", " + d[1]);
-    }*/
   };
 
+  /**
+   *
+   */
   const highestVolume = (volumes) => {
     let highest = volumes[0];
     for (let i = 1; i < volumes.length; i++) {
@@ -162,11 +149,12 @@ function App() {
     setTopVolumeDate(unix2date(highest[0]).toDateString());
   };
 
+  //transforms a Date object to an UNIX timestamp
   const date2unixDate = (date) => {
     const asDate = new Date("" + date);
     return asDate.getTime() / 1000;
   };
-
+  //transforms an UNIX timestamp to a Date object
   const unix2date = (unix) => {
     return new Date(unix);
   };
@@ -174,10 +162,12 @@ function App() {
   return (
     <div
       className="App"
+      id="app"
       style={{
         backgroundImage: `url(${background})`,
-        backgroundSize: "100% 100%",
+        backgroundSize: "70% 100%",
         margin: "0",
+        opacity: "0.9",
       }}
     >
       <form onSubmit={makeCoinGeckoQuery}>
@@ -187,7 +177,7 @@ function App() {
           <input
             type="date"
             id="start"
-            onChange={changeStartDate}
+            onChange={(e) => setStart(e.target.value)}
             required="required"
             max={new Date(Date.now() - 86400000).toISOString().split("T")[0]}
           ></input>
@@ -197,7 +187,7 @@ function App() {
           <input
             type="date"
             id="start"
-            onChange={changeEndDate}
+            onChange={(e) => setEnd(e.target.value)}
             required="required"
             max={new Date().toISOString().split("T")[0]}
           ></input>
@@ -228,7 +218,7 @@ function BearTrend(props) {
 
 function Volume(props) {
   return (
-    <div>
+    <div id="volume">
       {props.topVolumeDate !== undefined && props.topVolume !== undefined && (
         <div>
           <h2>Highest trading volume</h2>
@@ -245,7 +235,7 @@ function Volume(props) {
 
 function BuyAndSell(props) {
   return (
-    <div>
+    <div id="timetravel">
       {props.buyDate !== undefined && props.sellDate !== undefined && (
         <div>
           <h2>Instructions for Scrooge's time travel adventure</h2>
