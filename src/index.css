@@ -18,11 +18,7 @@ h2 {
 
 label {
   color: white;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  margin-left: 2%;
 }
 
 #datepicker {
@@ -36,11 +32,23 @@ h2 {
 #bear {
   max-width: 70%;
   margin: 0 auto;
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 button {
+  padding: 0.4em 1.2em;
+  border: 0.13em solid white;
+  border-radius: 0.12em;
+  margin-top: 2%;
   margin-left: 2%;
+  text-decoration: none;
+  color: white;
+  background: none;
+}
+
+button:hover {
+  background: white;
+  color: black;
 }
 
 #volume {
@@ -51,4 +59,8 @@ button {
 #timetravel {
   max-width: 70%;
   margin: 0 auto;
+}
+
+input {
+  margin-left: 0.5em;
 }
